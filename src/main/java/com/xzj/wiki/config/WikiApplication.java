@@ -1,13 +1,15 @@
-package com.xzj.wiki;
+package com.xzj.wiki.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-
+//@ComponentScan({"com.xzj.wiki","com.xzj.test"})
+@ComponentScan("com.xzj.wiki")
 @SpringBootApplication
 public class WikiApplication {
 
