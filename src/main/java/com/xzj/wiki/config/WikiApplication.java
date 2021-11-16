@@ -1,5 +1,6 @@
 package com.xzj.wiki.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.core.env.Environment;
 
 //@ComponentScan({"com.xzj.wiki","com.xzj.test"})
 @ComponentScan("com.xzj.wiki")
+@MapperScan("com.xzj.wiki.mapper")
 @SpringBootApplication
 public class WikiApplication {
 
