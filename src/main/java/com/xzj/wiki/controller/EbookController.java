@@ -1,6 +1,8 @@
 package com.xzj.wiki.controller;
 
-import com.xzj.wiki.domain.Ebook;
+import com.xzj.wiki.req.EbookReq;
+import com.xzj.wiki.resp.CommonResp;
+import com.xzj.wiki.resp.EbookResp;
 import com.xzj.wiki.service.EbookService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,10 @@ public class EbookController {
     private EbookService ebookService;
 
     @GetMapping("/list")
-    public List<Ebook> list() {
-        return ebookService.list();
+    public CommonResp list(EbookReq req) {
+        CommonResp<List<EbookResp>> response = new CommonResp<>();
+        List<EbookResp> list = ebookService.list(req);
+        response.setContent(list);
+        return response;
     }
 }
