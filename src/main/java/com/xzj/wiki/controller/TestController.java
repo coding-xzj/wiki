@@ -11,8 +11,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * TODO wikidev数据库加demo表测试generator
- *
  * @author zixi
  * @version 1.0
  * @date 21/11/12 下午 8:35
