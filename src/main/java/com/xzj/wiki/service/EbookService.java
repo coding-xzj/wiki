@@ -10,6 +10,7 @@ import com.xzj.wiki.req.EbookSaveReq;
 import com.xzj.wiki.resp.EbookQueryResp;
 import com.xzj.wiki.resp.PageResp;
 import com.xzj.wiki.util.CopyUtil;
+import com.xzj.wiki.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -27,6 +28,9 @@ public class EbookService {
 
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
 
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
@@ -58,6 +62,7 @@ public class EbookService {
     public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())){
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         } else {
             ebookMapper.updateByPrimaryKey(ebook);
