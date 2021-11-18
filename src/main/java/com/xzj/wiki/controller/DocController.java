@@ -1,11 +1,11 @@
 package com.xzj.wiki.controller;
 
-import com.xzj.wiki.req.CategoryQueryReq;
-import com.xzj.wiki.req.CategorySaveReq;
-import com.xzj.wiki.resp.CategoryQueryResp;
+import com.xzj.wiki.req.DocQueryReq;
+import com.xzj.wiki.req.DocSaveReq;
+import com.xzj.wiki.resp.DocQueryResp;
 import com.xzj.wiki.resp.CommonResp;
 import com.xzj.wiki.resp.PageResp;
-import com.xzj.wiki.service.CategoryService;
+import com.xzj.wiki.service.DocService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,39 +19,39 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/doc")
+public class DocController {
 
     @Resource
-    private CategoryService categoryService;
+    private DocService docService;
 
     @GetMapping("/all")
     public CommonResp all() {
-        CommonResp<List<CategoryQueryResp>> response = new CommonResp<>();
-        List<CategoryQueryResp> list = categoryService.all();
+        CommonResp<List<DocQueryResp>> response = new CommonResp<>();
+        List<DocQueryResp> list = docService.all();
         response.setContent(list);
         return response;
     }
 
     @GetMapping("/list")
-    public CommonResp list(@Valid CategoryQueryReq req) {
-        CommonResp<PageResp<CategoryQueryResp>> response = new CommonResp<>();
-        PageResp<CategoryQueryResp> list = categoryService.list(req);
+    public CommonResp list(@Valid DocQueryReq req) {
+        CommonResp<PageResp<DocQueryResp>> response = new CommonResp<>();
+        PageResp<DocQueryResp> list = docService.list(req);
         response.setContent(list);
         return response;
     }
 
     @PostMapping("/save")
-    public CommonResp save(@RequestBody CategorySaveReq req) {
+    public CommonResp save(@RequestBody DocSaveReq req) {
         CommonResp response = new CommonResp();
-        categoryService.save(req);
+        docService.save(req);
         return response;
     }
 
     @DeleteMapping("/delete/{id}")
     public CommonResp delete(@PathVariable Long id) {
         CommonResp response = new CommonResp();
-        categoryService.delete(id);
+        docService.delete(id);
         return response;
     }
 }
