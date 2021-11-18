@@ -69,4 +69,10 @@ public class EbookService {
         }
     }
 
+    /*
+    删除功能
+     */
+    public void delete(Long id) {
+        ebookMapper.deleteByPrimaryKey(id);
+    }
 }

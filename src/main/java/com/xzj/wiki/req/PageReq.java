@@ -1,5 +1,8 @@
 package com.xzj.wiki.req;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author zixi
  * @version 1.0
@@ -9,8 +12,11 @@ package com.xzj.wiki.req;
 
 public class PageReq {
 
+    @NotNull(message = "【页码】不能为空")
     private int page;
 
+    @NotNull(message = "【每页条数】不能为空")
+    @Max(value =100, message = "【每页条数】不能超过100")
     private int size;
 
     public int getPage() {
