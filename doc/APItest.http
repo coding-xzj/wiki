@@ -1,0 +1,51 @@
+### ebook
+
+GET http://localhost:8080/ebook/list?name=Spring
+Accept: application/json
+
+###
+
+POST http://localhost:8080/ebook/save
+Content-Type: application/json
+
+{
+  "id": 455106544250880,
+  "name": "Spring Boot 入门教程11111",
+  "category1Id": null,
+  "category2Id": null,
+  "description": "零基础入门 Java 开发，企业级应用开发最佳首选框架",
+  "cover": null,
+  "docCount": 0,
+  "viewCount": 0,
+  "voteCount": 0
+}
+
+###
+
+POST http://localhost:8080/ebook/delete/455106544250880
+Content-Type: application/x-www-form-urlencoded
+
+### category
+
+GET http://localhost:8080/category/list
+Accept: application/json
+
+###
+
+POST http://localhost:8080/category/save
+Content-Type: application/json
+
+{
+  "id": 455085911764992,
+  "parent": 200,
+  "name": "test11",
+  "sort": 201
+}
+
+
+###
+
+GET http://localhost:8080/category/delete/455085911764992
+Accept: application/json
+
+###
