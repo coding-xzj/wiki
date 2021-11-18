@@ -32,17 +32,32 @@ public class CategoryService {
     @Resource
     private SnowFlake snowFlake;
 
+    public List<CategoryQueryResp> all() {
+        CategoryExample categoryExample = new CategoryExample();
+        // 条件 按sort排序
+        categoryExample.setOrderByClause("sort asc");
+        // 查询数据库
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        // 优化Resp数据
+        List<CategoryQueryResp> respList = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
+        return respList;
+    }
+
     public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
         CategoryExample categoryExample = new CategoryExample();
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
-
+        // 查询条件
+        categoryExample.setOrderByClause("sort asc");
+        if (!ObjectUtils.isEmpty(req.getName())) {
+            criteria.andNameLike("%" + req.getName() + "%");
+        }
+        // 查询数据库
         PageHelper.startPage(req.getPage(), req.getSize());
         List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
-
-        PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
-
+        // 优化Resp数据
         List<CategoryQueryResp> respList = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
         PageResp<CategoryQueryResp> pageResp = new PageResp<>();
+        PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(respList);
         return pageResp;

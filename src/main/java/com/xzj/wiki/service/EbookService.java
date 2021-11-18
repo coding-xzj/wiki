@@ -35,19 +35,18 @@ public class EbookService {
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
+        // 查询条件
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
-
+        if (!ObjectUtils.isEmpty(req.getCategory2Id())) {
+            criteria.andCategory2IdEqualTo(req.getCategory2Id());
+        }
+        // 查询数据库
         PageHelper.startPage(req.getPage(), req.getSize());
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
-
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
-//        System.out.printf("总行数：%d", pageInfo.getTotal());
-//        System.out.println();
-//        System.out.printf("总页数：%d", pageInfo.getPages());
-//        System.out.println();
-
+        // 优化Resp数据
         List<EbookQueryResp> respList = CopyUtil.copyList(ebookList, EbookQueryResp.class);
         PageResp<EbookQueryResp> pageResp = new PageResp<>();
         pageResp.setTotal(pageInfo.getTotal());
