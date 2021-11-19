@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author zixi
@@ -23,6 +24,14 @@ public class EbookController {
 
     @Resource
     private EbookService ebookService;
+
+    @GetMapping("/all")
+    public CommonResp all() {
+        CommonResp<List<EbookQueryResp>> response = new CommonResp<>();
+        List<EbookQueryResp> list = ebookService.all();
+        response.setContent(list);
+        return response;
+    }
 
     @GetMapping("/list")
     public CommonResp list(@Valid EbookQueryReq req) {

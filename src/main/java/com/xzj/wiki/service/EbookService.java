@@ -32,6 +32,17 @@ public class EbookService {
     @Resource
     private SnowFlake snowFlake;
 
+    public List<EbookQueryResp> all() {
+        EbookExample ebookExample = new EbookExample();
+        // 条件 按name排序
+        ebookExample.setOrderByClause("name asc");
+        // 查询数据库
+        List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
+        // 优化Resp数据
+        List<EbookQueryResp> respList = CopyUtil.copyList(ebookList, EbookQueryResp.class);
+        return respList;
+    }
+
     public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
