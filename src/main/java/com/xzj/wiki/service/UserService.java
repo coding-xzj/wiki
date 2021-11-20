@@ -21,8 +21,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * TODO 修改用户名可能会报错
- *
  * @author zixi
  * @version 1.0
  * @date 21/11/15 下午 7:58
@@ -73,17 +71,20 @@ public class UserService {
      */
     public void save(UserSaveReq req) {
         User user = CopyUtil.copy(req, User.class);
-        User userDB = selectByLoginName(req.getLoginName());
-        if (!ObjectUtils.isEmpty(userDB)) {
-            // 用户名已存在
-            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
-        }
         if (ObjectUtils.isEmpty(req.getId())) {
             // 新增
-            user.setId(snowFlake.nextId());
-            userMapper.insert(user);
+            User userDB = selectByLoginName(req.getLoginName());
+            if (ObjectUtils.isEmpty(userDB)) {
+                user.setId(snowFlake.nextId());
+                userMapper.insert(user);
+            } else {
+                // 用户名已存在
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+            }
         } else {
             // 更新
+            userMapper.deleteByPrimaryKey(user.getId());
+            userMapper.insert(user);
             userMapper.updateByPrimaryKey(user);
         }
     }
