@@ -1,5 +1,6 @@
 package com.xzj.wiki.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xzj.wiki.req.UserLoginReq;
 import com.xzj.wiki.req.UserQueryReq;
 import com.xzj.wiki.req.UserSaveReq;
@@ -8,12 +9,17 @@ import com.xzj.wiki.resp.PageResp;
 import com.xzj.wiki.resp.UserLoginResp;
 import com.xzj.wiki.resp.UserQueryResp;
 import com.xzj.wiki.service.UserService;
+import com.xzj.wiki.util.SnowFlake;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zixi
@@ -25,8 +31,16 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
     @Resource
     private UserService userService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
+
+    @Resource
+    private SnowFlake snowFlake;
 
     @GetMapping("/all")
     public CommonResp<List<UserQueryResp>> all() {
@@ -66,6 +80,12 @@ public class UserController {
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp<UserLoginResp> response = new CommonResp<>();
         UserLoginResp userLoginResp = userService.login(req);
+
+        Long token = snowFlake.nextId();
+        LOG.info("生成单点登录token：{}，并放入redis中", token);
+        userLoginResp.setToken(token.toString());
+        redisTemplate.opsForValue().set(token.toString(), JSONObject.toJSONString(userLoginResp), 3600 * 24, TimeUnit.SECONDS);
+
         response.setContent(userLoginResp);
         return response;
     }
