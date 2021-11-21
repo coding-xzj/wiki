@@ -99,7 +99,7 @@ public class DocService {
     删除功能
      */
     public void delete(Long id) {
-        docMapper.deleteByPrimaryKey(id);
+        myDocMapper.increaseViewCount(id);
     }
 
     public void delete(List<String> ids) {
@@ -119,4 +119,10 @@ public class DocService {
         }
     }
 
+    /*
+    点赞功能
+     */
+    public void vote(Long id) {
+        docMapper.deleteByPrimaryKey(id);
+    }
 }
