@@ -7,6 +7,7 @@ import com.xzj.wiki.domain.Doc;
 import com.xzj.wiki.domain.DocExample;
 import com.xzj.wiki.mapper.ContentMapper;
 import com.xzj.wiki.mapper.DocMapper;
+import com.xzj.wiki.mapper.MyDocMapper;
 import com.xzj.wiki.req.DocQueryReq;
 import com.xzj.wiki.req.DocSaveReq;
 import com.xzj.wiki.resp.DocQueryResp;
@@ -33,6 +34,9 @@ public class DocService {
 
     @Resource
     private ContentMapper contentMapper;
+
+    @Resource
+    private MyDocMapper myDocMapper;
 
     @Resource
     private SnowFlake snowFlake;
@@ -77,6 +81,8 @@ public class DocService {
         Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty(req.getId())){
             doc.setId(snowFlake.nextId());
+            doc.setViewCount(0);
+            doc.setVoteCount(0);
             docMapper.insert(doc);
             content.setId(doc.getId());
             contentMapper.insert(content);
@@ -105,6 +111,7 @@ public class DocService {
 
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
+        myDocMapper.increaseViewCount(id);
         if (ObjectUtils.isEmpty(content)) {
             return "";
         } else {
