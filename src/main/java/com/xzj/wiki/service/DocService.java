@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.xzj.wiki.domain.Content;
 import com.xzj.wiki.domain.Doc;
 import com.xzj.wiki.domain.DocExample;
+import com.xzj.wiki.exception.BusinessException;
+import com.xzj.wiki.exception.BusinessExceptionCode;
 import com.xzj.wiki.mapper.ContentMapper;
 import com.xzj.wiki.mapper.DocMapper;
 import com.xzj.wiki.mapper.MyDocMapper;
@@ -13,6 +15,7 @@ import com.xzj.wiki.req.DocSaveReq;
 import com.xzj.wiki.resp.DocQueryResp;
 import com.xzj.wiki.resp.PageResp;
 import com.xzj.wiki.util.CopyUtil;
+import com.xzj.wiki.util.RedisUtil;
 import com.xzj.wiki.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -37,6 +40,9 @@ public class DocService {
 
     @Resource
     private MyDocMapper myDocMapper;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Resource
     private SnowFlake snowFlake;
@@ -123,6 +129,10 @@ public class DocService {
     点赞功能
      */
     public void vote(Long id) {
-        docMapper.deleteByPrimaryKey(id);
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id, 2000)) {
+            myDocMapper.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
     }
 }
