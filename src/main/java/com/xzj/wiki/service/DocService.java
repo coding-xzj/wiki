@@ -135,4 +135,11 @@ public class DocService {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
     }
+
+    /*
+    电子书信息定时更新
+     */
+    public void updateEbookInfo() {
+        myDocMapper.updateEbookInfo();
+    }
 }
