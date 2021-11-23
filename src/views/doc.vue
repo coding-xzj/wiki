@@ -64,15 +64,12 @@ const route = useRoute();
 const docs = ref();
 const html = ref();
 
-const defaultSelectedKeys = ref();
-defaultSelectedKeys.value = [];
+const defaultSelectedKeys = ref<any[]>([]);
 
 // 当前选中的文档
 const doc = ref();
-doc.value = {};
 
-const parentCate = ref(); // 一级文档树
-parentCate.value = [];
+const parentCate = ref<any[]>([]); // 一级文档树
 
 /**
  * 内容查询
@@ -90,25 +87,39 @@ const handleQueryContent = async (id: number) => {
 /**
  * 数据查询
  **/
-const handleQuery = () => {
-  axios.get("/doc/all/" + route.query.ebookId).then(response => {
-    const data = response.data;
-    if (data.success) {
-      docs.value = data.content;
 
-      parentCate.value = [];
-      parentCate.value = Tool.array2Tree(docs.value, 0);
+const router = useRouter();
+const counter = ref(5);
+let timer: any;
+const handleQuery = async () => {
+  const res = await axios.get("/doc/all/" + route.query.ebookId);
+  const data = res.data;
+  if (data.success) {
+    docs.value = data.content;
 
-      if (Tool.isNotEmpty(parentCate)) {
-        defaultSelectedKeys.value = [parentCate.value[0].id];
-        handleQueryContent(parentCate.value[0].id);
-        // 初始显示文档信息
-        doc.value = parentCate.value[0];
-      }
-    } else {
-      message.error(data.message);
+    parentCate.value = [];
+    parentCate.value = Tool.array2Tree(docs.value, 0);
+
+    if (Tool.isEmpty(parentCate.value)) {
+      timer = setInterval(() => {
+        counter.value = counter.value - 1;
+        if (counter.value <= 0) {
+          clearInterval(timer);
+          timer = null;
+          router.push({ path: "/" });
+        }
+      }, 1000);
     }
-  });
+
+    if (Tool.isNotEmpty(parentCate.value)) {
+      // defaultSelectedKeys.value = [parentCate.value[0].id];
+      handleQueryContent(parentCate.value[0].id);
+      // 初始显示文档信息
+      doc.value = parentCate.value[0];
+    }
+  } else {
+    message.error(data.message);
+  }
 };
 
 const onSelect = (selectedKeys: any, info: any) => {
@@ -122,32 +133,18 @@ const onSelect = (selectedKeys: any, info: any) => {
 };
 
 // 点赞
-const vote = () => {
-  axios.get("/doc/vote/" + doc.value.id).then(response => {
-    const data = response.data;
-    if (data.success) {
-      doc.value.voteCount++;
-    } else {
-      message.error(data.message);
-    }
-  });
+const vote = async () => {
+  const res = await axios.get("/doc/vote/" + doc.value.id);
+  const data = res.data;
+  if (data.success) {
+    doc.value.voteCount++;
+  } else {
+    message.error(data.message);
+  }
 };
 
-const router = useRouter();
-const counter = ref(5);
-let timer: any;
 onMounted(() => {
   handleQuery();
-  if (parentCate.value.length === 0) {
-    timer = setInterval(() => {
-      counter.value = counter.value - 1;
-      if (counter.value <= 0) {
-        clearInterval(timer);
-        timer = null;
-        router.push({ path: "/" });
-      }
-    }, 1000);
-  }
 });
 </script>
 

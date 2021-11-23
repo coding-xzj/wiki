@@ -23,18 +23,26 @@
       >
         <router-link to="/admin/category">分类管理</router-link>
       </a-menu-item>
-      <a-popconfirm
-        title="确认退出登录?"
-        ok-text="是"
-        cancel-text="否"
-        @confirm="logout()"
-      >
-        <a class="login-menu" v-show="user.id">
-          <span>退出登录</span>
-        </a>
-      </a-popconfirm>
+
       <a class="login-menu" v-show="user.id">
-        <span>您好：{{ user.name }}</span>
+        <a-dropdown>
+          <span>{{ user.name }}</span>
+
+          <template #overlay>
+            <a-menu>
+              <a-menu-item>
+                <a-popconfirm
+                  title="确认退出登录?"
+                  ok-text="是"
+                  cancel-text="否"
+                  @confirm="logout()"
+                >
+                  <a class="login-menu"> 退出登录 </a>
+                </a-popconfirm>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </a>
       <a class="login-menu" v-show="!user.id" @click="showLoginModal">
         <span>登录</span>
@@ -103,6 +111,8 @@ const login = async () => {
   const res = await axios.post("/user/login", loginUser.value);
   loginModalLoading.value = false;
   const data = res.data;
+  console.log(res);
+
   if (data.success) {
     loginModalVisible.value = false;
     message.success("登录成功！");

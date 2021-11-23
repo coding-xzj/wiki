@@ -1,20 +1,27 @@
 <template>
-  <a-layout>
+  <a-layout style="margin-top: 20px; padding: 0 50px">
     <a-layout-content
       :style="{
         background: '#fff',
-        padding: '24px',
+        padding: '15px 30px',
         margin: 0,
         minHeight: '280px',
       }"
     >
       <a-row type="flex" justify="end">
-        <a-form layout="inline" :model="queryName">
+        <a-form layout="inline" :model="queryName" style="margin-bottom: 20px">
           <a-form-item>
-            <a-input v-model:value="queryName.loginName" placeholder="登陆名"></a-input>
+            <a-input
+              v-model:value="queryName.loginName"
+              placeholder="登陆名"
+            ></a-input>
           </a-form-item>
           <a-form-item>
-            <a-button type="primary" @click="handleQuery({ page: 1, size: pagination.pageSize })">查询</a-button>
+            <a-button
+              type="primary"
+              @click="handleQuery({ page: 1, size: pagination.pageSize })"
+              >查询</a-button
+            >
           </a-form-item>
           <a-form-item>
             <a-button type="primary" @click="add()">新增</a-button>
@@ -28,10 +35,13 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
+        style="min-height: 380px"
       >
         <template v-slot:action="{ record }">
           <a-space size="small">
-            <a-button type="primary" @click="resetPassword(record)">重置密码</a-button>
+            <a-button type="primary" @click="resetPassword(record)"
+              >重置密码</a-button
+            >
             <a-button type="primary" @click="edit(record)">编辑</a-button>
             <a-popconfirm
               title="删除后不可恢复，确认删除?"

@@ -1,15 +1,15 @@
 <template>
-  <a-layout>
+  <a-layout style="margin-top: 20px; padding: 0 50px">
     <a-layout-content
       :style="{
         background: '#fff',
-        padding: '24px',
         margin: 0,
         minHeight: '280px',
+        padding: '20px 30px',
       }"
     >
       <a-row type="flex" justify="end">
-        <a-form layout="inline" :model="queryInfo">
+        <a-form layout="inline" :model="queryInfo" style="margin-bottom: 20px">
           <a-form-item>
             <a-button type="primary" @click="handleQuery()">查询</a-button>
           </a-form-item>
@@ -24,6 +24,7 @@
         :data-source="parentCate"
         :loading="loading"
         :pagination="false"
+        :scroll="{ y: 380 }"
       >
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar" />
@@ -51,7 +52,11 @@
     :confirm-loading="modalLoading"
     @ok="handleModalOk"
   >
-    <a-form :model="category" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+    <a-form
+      :model="category"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 18 }"
+    >
       <a-form-item label="名称">
         <a-input v-model:value="category.name" />
       </a-form-item>
@@ -63,7 +68,8 @@
             :key="item.id"
             :value="item.id"
             :disabled="category.id === item.id"
-          >{{ item.name }}</a-select-option>
+            >{{ item.name }}</a-select-option
+          >
         </a-select>
       </a-form-item>
       <a-form-item label="顺序">
@@ -80,7 +86,6 @@ import { message } from "ant-design-vue";
 import { Tool } from "@/util/tool";
 
 const queryInfo = ref();
-queryInfo.value = {};
 const categorys = ref();
 const loading = ref(false);
 
@@ -179,5 +184,8 @@ onMounted(() => {
 img {
   width: 50px;
   height: 50px;
+}
+.ant-table-body {
+  min-height: 500px;
 }
 </style>

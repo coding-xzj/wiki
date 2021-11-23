@@ -1,26 +1,27 @@
 <template>
-  <a-layout>
+  <a-layout style="margin-top: 20px; padding: 0 50px">
     <a-layout-content
       :style="{
         background: '#fff',
-        padding: '24px',
-        margin: 0,
+        padding: '15px 30px',
         minHeight: '280px',
       }"
     >
       <!-- 工具栏 -->
       <a-row type="flex" justify="end">
-        <a-form layout="inline" :model="queryName">
+        <a-form layout="inline" :model="queryName" style="margin-bottom: 20px">
           <a-form-item>
-            <a-input v-model:value="queryName.name" placeholder="名称"></a-input>
+            <a-input
+              v-model:value="queryName.name"
+              placeholder="名称"
+            ></a-input>
           </a-form-item>
           <a-form-item>
             <a-button
               type="primary"
-              @click="
-                handleQuery({ page: 1, size: pagination.pageSize })
-              "
-            >查询</a-button>
+              @click="handleQuery({ page: 1, size: pagination.pageSize })"
+              >查询</a-button
+            >
           </a-form-item>
           <a-form-item>
             <a-button type="primary" @click="add()">新增</a-button>
@@ -35,6 +36,7 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
+        style="min-height: 380px"
       >
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar" />
@@ -112,8 +114,8 @@ const ebooks = ref();
 // 分页管理
 const pagination = ref({
   current: 1,
-  pageSize: 10,
-  total: 0,
+  pageSize: 5,
+  total: 0
 });
 
 // 请求时的加载
@@ -125,32 +127,38 @@ const columns = [
     title: "封面",
     dataIndex: "cover",
     slots: { customRender: "cover" },
+    width: 200
   },
   {
     title: "名称",
     dataIndex: "name",
+    width: 200
   },
   {
     title: "分类",
     slots: { customRender: "category" },
+    width: 200
   },
   {
     title: "文档数",
     dataIndex: "docCount",
+    width: 120
   },
   {
     title: "阅读数",
     dataIndex: "viewCount",
+    width: 120
   },
   {
     title: "点赞数",
     dataIndex: "voteCount",
+    width: 120
   },
   {
     title: "操作",
     key: "action",
-    slots: { customRender: "action" },
-  },
+    slots: { customRender: "action" }
+  }
 ];
 
 /**
@@ -164,8 +172,8 @@ const handleQuery = async (queryInfo: any) => {
     params: {
       page: queryInfo.page,
       size: queryInfo.size,
-      name: queryName.value.name,
-    },
+      name: queryName.value.name
+    }
   });
 
   loading.value = false;
@@ -189,7 +197,7 @@ const handleTableChange = (pagination: any) => {
   console.log("看看自带的分页参数都有啥：" + pagination);
   handleQuery({
     page: pagination.current,
-    size: pagination.pageSize,
+    size: pagination.pageSize
   });
 };
 
@@ -214,7 +222,7 @@ const handleModalOk = async () => {
     // 重新加载列表
     handleQuery({
       page: pagination.value.current,
-      size: pagination.value.pageSize,
+      size: pagination.value.pageSize
     });
   } else {
     message.error(data.message);
@@ -227,10 +235,7 @@ const handleModalOk = async () => {
 const edit = (record: any) => {
   modalVisible.value = true;
   ebook.value = Tool.copy(record);
-  categoryIds.value = [
-    ebook.value.category1Id,
-    ebook.value.category2Id,
-  ];
+  categoryIds.value = [ebook.value.category1Id, ebook.value.category2Id];
 };
 
 /**
@@ -251,7 +256,7 @@ const handleDelete = async (id: number) => {
     // 重新加载列表
     handleQuery({
       page: pagination.value.current,
-      size: pagination.value.pageSize,
+      size: pagination.value.pageSize
     });
   } else {
     message.error(data.message);
@@ -274,7 +279,7 @@ const handleQueryCategory = async () => {
     parentCate.value = Tool.array2Tree(categorys, 0);
     handleQuery({
       page: 1,
-      size: pagination.value.pageSize,
+      size: pagination.value.pageSize
     });
   } else {
     message.error(data.message);

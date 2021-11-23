@@ -1,84 +1,81 @@
 <template>
   <a-layout>
-    <a-layout-sider class="sider" width="250">
-      <a-menu
-        mode="inline"
-        theme="dark"
-        :style="{ height: '100%', borderRight: 0 }"
-        @click="handleClick"
-        :openKeys="openKeys"
-        @openChange="onOpenChange"
-      >
-        <a-menu-item key="welcome">
-          <MailOutlined />
-          <span>欢迎</span>
-        </a-menu-item>
-        <a-sub-menu v-for="item in parentCate" :key="item.id">
-          <template v-slot:title>
-            <span>{{ item.name }}</span>
-          </template>
-          <a-menu-item v-for="child in item.children" :key="child.id">
-            <span>{{ child.name }}</span>
-          </a-menu-item>
-        </a-sub-menu>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout-content
-      :style="{
-        background: '#f1f3f4',
-        padding: '24px',
-        margin: 0,
-        minHeight: '280px',
-      }"
-    >
-      <div class="ebook" v-if="isShowWelcome">
-        <the-welcome></the-welcome>
-      </div>
-      <a-list
-        class="ebook"
-        v-else-if="isShowList"
-        item-layout="vertical"
-        size="large"
-        :grid="{ gutter: 20, column: 3 }"
-        :data-source="ebooks"
-      >
-        <template #renderItem="{ item }">
-          <a-list-item key="item.name">
-            <template #actions>
-              <span>
-                <component
-                  v-bind:is="'FileOutlined'"
-                  style="margin-right: 8px"
-                />
-                {{ item.docCount }}
-              </span>
-              <span>
-                <component
-                  v-bind:is="'UserOutlined'"
-                  style="margin-right: 8px"
-                />
-                {{ item.viewCount }}
-              </span>
-              <span>
-                <component
-                  v-bind:is="'LikeOutlined'"
-                  style="margin-right: 8px"
-                />
-                {{ item.voteCount }}
-              </span>
-            </template>
-            <a-list-item-meta :description="item.description">
-              <template #title>
-                <router-link :to="'/doc?ebookId=' + item.id">
-                  {{ item.name }}
-                </router-link>
+    <a-layout-content style="padding: 0 50px">
+      <a-layout style="padding: 24px 0; margin: 20px 0; background: #fff">
+        <a-layout-sider class="sider" width="250">
+          <a-menu
+            mode="inline"
+            theme="light"
+            :style="{ height: '100%' }"
+            @click="handleClick"
+            :openKeys="openKeys"
+            @openChange="onOpenChange"
+          >
+            <a-menu-item key="welcome">
+              <MailOutlined />
+              <span>欢迎</span>
+            </a-menu-item>
+            <a-sub-menu v-for="item in parentCate" :key="item.id">
+              <template v-slot:title>
+                <span>{{ item.name }}</span>
               </template>
-              <template #avatar><a-avatar :src="item.cover" /></template>
-            </a-list-item-meta>
-          </a-list-item>
-        </template>
-      </a-list>
-      <p class="noEbook" v-else>该分类暂无电子书哦~去看看其他分类吧</p>
+              <a-menu-item v-for="child in item.children" :key="child.id">
+                <span>{{ child.name }}</span>
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
+        </a-layout-sider>
+        <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+          <div class="ebook" v-if="isShowWelcome">
+            <the-welcome></the-welcome>
+          </div>
+          <a-list
+            class="ebook"
+            v-else-if="isShowList"
+            item-layout="vertical"
+            size="large"
+            :grid="{ gutter: 20, column: 3 }"
+            :data-source="ebooks"
+          >
+            <template #renderItem="{ item }">
+              <a-list-item key="item.name">
+                <template #actions>
+                  <span>
+                    <component
+                      v-bind:is="'FileOutlined'"
+                      style="margin-right: 8px"
+                    />
+                    {{ item.docCount }}
+                  </span>
+                  <span>
+                    <component
+                      v-bind:is="'UserOutlined'"
+                      style="margin-right: 8px"
+                    />
+                    {{ item.viewCount }}
+                  </span>
+                  <span>
+                    <component
+                      v-bind:is="'LikeOutlined'"
+                      style="margin-right: 8px"
+                    />
+                    {{ item.voteCount }}
+                  </span>
+                </template>
+                <a-list-item-meta :description="item.description">
+                  <template #title>
+                    <router-link :to="'/doc?ebookId=' + item.id">
+                      {{ item.name }}
+                    </router-link>
+                  </template>
+                  <template #avatar><a-avatar :src="item.cover" /></template>
+                </a-list-item-meta>
+              </a-list-item>
+            </template>
+          </a-list>
+          <p class="noEbook" v-else>该分类暂无电子书哦~去看看其他分类吧</p>
+        </a-layout-content>
+      </a-layout>
     </a-layout-content>
   </a-layout>
 </template>
@@ -132,7 +129,7 @@ const handleQueryEbook = async () => {
   const res = await axios.get("/ebook/list", {
     params: {
       page: 1,
-      size: 1000,
+      size: 10,
       categoryId2: categoryId2
     }
   });
@@ -205,5 +202,8 @@ onMounted(() => {
   line-height: 50px;
   border-radius: 8%;
   margin: 5px 0;
+}
+.ant-layout-sider {
+  background: #fff;
 }
 </style>

@@ -3,6 +3,7 @@ import {
   createWebHistory,
   RouteRecordRaw,
 } from "vue-router";
+import Main from "../views/main.vue";
 import Home from "../views/home.vue";
 import Doc from "../views/doc.vue";
 import AdminUser from "../views/admin/admin-user.vue";
@@ -15,45 +16,52 @@ import { Tool } from "@/util/tool";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Main",
+    component: Main,
+    children: [
+      {
+        path: "/",
+        name: "Home",
+        component: Home,
+      },
+      {
+        path: "/admin/user",
+        name: "AdminUser",
+        component: AdminUser,
+        meta: {
+          loginRequire: true,
+        },
+      },
+      {
+        path: "/admin/ebook",
+        name: "AdminEbook",
+        component: AdminEbook,
+        meta: {
+          loginRequire: true,
+        },
+      },
+      {
+        path: "/admin/category",
+        name: "AdminCategory",
+        component: AdminCategory,
+        meta: {
+          loginRequire: true,
+        },
+      },
+      {
+        path: "/admin/doc",
+        name: "AdminDoc",
+        component: AdminDoc,
+        meta: {
+          loginRequire: true,
+        },
+      },
+    ],
   },
   {
     path: "/doc",
     name: "Doc",
     component: Doc,
-  },
-  {
-    path: "/admin/user",
-    name: "AdminUser",
-    component: AdminUser,
-    meta: {
-      loginRequire: true,
-    },
-  },
-  {
-    path: "/admin/ebook",
-    name: "AdminEbook",
-    component: AdminEbook,
-    meta: {
-      loginRequire: true,
-    },
-  },
-  {
-    path: "/admin/category",
-    name: "AdminCategory",
-    component: AdminCategory,
-    meta: {
-      loginRequire: true,
-    },
-  },
-  {
-    path: "/admin/doc",
-    name: "AdminDoc",
-    component: AdminDoc,
-    meta: {
-      loginRequire: true,
-    },
   },
 ];
 
