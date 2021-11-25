@@ -35,7 +35,7 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
-        style="min-height: 380px"
+        style="min-height: 395px"
       >
         <template v-slot:action="{ record }">
           <a-space size="small">
@@ -109,7 +109,7 @@ queryName.value = {};
 const users = ref();
 const pagination = ref({
   current: 1,
-  pageSize: 10,
+  pageSize: 5,
   total: 0
 });
 const loading = ref(false);

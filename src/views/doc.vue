@@ -1,11 +1,13 @@
 <template>
-  <a-layout>
+  <a-layout style="margin-top: 20px; padding: 0 50px">
     <a-layout-content
       :style="{
         background: '#fff',
-        padding: '24px',
+        padding: '20px 30px',
         margin: 0,
         minHeight: '280px',
+        maxHeight: '530px',
+        overflowY: 'scroll',
       }"
     >
       <div class="noEbook" v-if="parentCate.length === 0">
@@ -13,42 +15,48 @@
         <span class="counter">{{ counter }}</span>
         秒后自动回到主页~
       </div>
-      <a-row>
-        <a-col :span="6">
-          <a-tree
-            v-if="parentCate.length > 0"
-            :tree-data="parentCate"
-            @select="onSelect"
-            :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
-            :defaultExpandAll="true"
-            :defaultSelectedKeys="defaultSelectedKeys"
-          >
-          </a-tree>
-        </a-col>
-        <a-col :span="18" v-if="parentCate.length !== 0">
-          <div>
-            <h2>{{ doc.name }}</h2>
-            <div>
-              <span>阅读数：{{ doc.viewCount }}</span> &nbsp; &nbsp;
-              <span>点赞数：{{ doc.voteCount }}</span>
-            </div>
-            <a-divider style="height: 2px; background-color: #9999cc" />
-          </div>
-          <div class="wangeditor" :innerHTML="html"></div>
-          <div class="vote-div">
-            <a-button
-              type="primary"
-              shape="round"
-              :size="'large'"
-              @click="vote"
+      <a-layout>
+        <a-layout-sider style="background: #fff">
+          <a-col :span="8">
+            <a-tree
+              v-if="parentCate.length > 0"
+              :tree-data="parentCate"
+              @select="onSelect"
+              :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
+              :defaultExpandAll="true"
+              :defaultSelectedKeys="defaultSelectedKeys"
             >
-              <template #icon
-                ><LikeOutlined /> &nbsp;点赞：{{ doc.voteCount }}
-              </template>
-            </a-button>
-          </div>
-        </a-col>
-      </a-row>
+            </a-tree>
+          </a-col>
+        </a-layout-sider>
+        <a-layout-content style="background: #fff">
+          <a-row>
+            <a-col :span="24" v-if="parentCate.length !== 0">
+              <div>
+                <h2>{{ doc.name }}</h2>
+                <div>
+                  <span>阅读数：{{ doc.viewCount }}</span> &nbsp; &nbsp;
+                  <span>点赞数：{{ doc.voteCount }}</span>
+                </div>
+                <a-divider style="height: 2px; background-color: #9999cc" />
+              </div>
+              <div class="wangeditor" :innerHTML="html"></div>
+              <div class="vote-div">
+                <a-button
+                  type="primary"
+                  shape="round"
+                  :size="'large'"
+                  @click="vote"
+                >
+                  <template #icon
+                    ><LikeOutlined /> &nbsp;点赞：{{ doc.voteCount }}
+                  </template>
+                </a-button>
+              </div>
+            </a-col>
+          </a-row>
+        </a-layout-content>
+      </a-layout>
     </a-layout-content>
   </a-layout>
 </template>

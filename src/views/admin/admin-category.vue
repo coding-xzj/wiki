@@ -50,6 +50,8 @@
     title="分类表单"
     v-model:visible="modalVisible"
     :confirm-loading="modalLoading"
+    okText="确定"
+    cancelText="取消"
     @ok="handleModalOk"
   >
     <a-form

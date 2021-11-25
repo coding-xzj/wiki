@@ -1,6 +1,10 @@
 <template>
-  <a-layout-footer style="text-align: center">
-    <a href="https://github.com/coding-xzj">GitHub</a>
+  <a-layout-footer>
+    <GithubOutlined /><a
+      href="https://github.com/coding-xzj"
+      style="margin-left: 8px"
+      >GitHub</a
+    >
   </a-layout-footer>
 </template>
 
@@ -9,3 +13,10 @@ export default {
   name: 'TheFooter',
 }
 </script>
+
+<style>
+.ant-layout-footer {
+  padding: 15px !important;
+  text-align: center;
+}
+</style>

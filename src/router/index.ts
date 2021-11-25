@@ -25,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
         component: Home,
       },
       {
+        path: "/doc",
+        name: "Doc",
+        component: Doc,
+      },
+      {
         path: "/admin/user",
         name: "AdminUser",
         component: AdminUser,
@@ -57,11 +62,6 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
     ],
-  },
-  {
-    path: "/doc",
-    name: "Doc",
-    component: Doc,
   },
 ];
 

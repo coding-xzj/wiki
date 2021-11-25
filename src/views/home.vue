@@ -25,7 +25,14 @@
             </a-sub-menu>
           </a-menu>
         </a-layout-sider>
-        <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+        <a-layout-content
+          :style="{
+            padding: '0 24px',
+            minHeight: '280px',
+            maxHeight: '485px',
+            overflowY: 'scroll',
+          }"
+        >
           <div class="ebook" v-if="isShowWelcome">
             <the-welcome></the-welcome>
           </div>

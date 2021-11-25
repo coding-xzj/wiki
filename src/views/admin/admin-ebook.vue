@@ -36,7 +36,7 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
-        style="min-height: 380px"
+        style="min-height: 395px"
       >
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar" />
@@ -71,6 +71,8 @@
     title="电子书表单"
     v-model:visible="modalVisible"
     :confirm-loading="modalLoading"
+    okText="确定"
+    cancelText="取消"
     @ok="handleModalOk"
   >
     <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">

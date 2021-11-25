@@ -23,11 +23,9 @@
       >
         <router-link to="/admin/category">分类管理</router-link>
       </a-menu-item>
-
       <a class="login-menu" v-show="user.id">
         <a-dropdown>
           <span>{{ user.name }}</span>
-
           <template #overlay>
             <a-menu>
               <a-menu-item>
@@ -37,7 +35,7 @@
                   cancel-text="否"
                   @confirm="logout()"
                 >
-                  <a class="login-menu"> 退出登录 </a>
+                  <div class="logout">退出登录</div>
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
@@ -153,5 +151,9 @@ const logout = async () => {
   float: right;
   color: white;
   padding-left: 10px;
+}
+.logout {
+  line-height: 0;
+  padding: 10px 0;
 }
 </style>

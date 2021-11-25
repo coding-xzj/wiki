@@ -1,15 +1,15 @@
 <template>
-  <a-layout>
+  <a-layout style="margin-top: 20px; padding: 0 50px">
     <a-layout-content
       :style="{
         background: '#fff',
-        padding: '24px',
+        padding: '20px 30px',
         margin: 0,
         minHeight: '280px',
       }"
     >
       <a-row :gutter="24">
-        <a-col :span="8">
+        <a-col :span="6">
           <a-form layout="inline" :model="param">
             <a-form-item>
               <a-button type="primary" @click="handleQuery()"> 查询 </a-button>
@@ -48,30 +48,39 @@
             </template>
           </a-table>
         </a-col>
-        <a-col :span="16">
+        <a-col :span="18">
           <a-form :model="doc" layout="vertical">
-            <a-form-item>
-              <a-input v-model:value="doc.name" placeholder="名称" />
-            </a-form-item>
-            <a-form-item>
-              <a-tree-select
-                v-model:value="doc.parent"
-                style="width: 100%"
-                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                :tree-data="treeSelectData"
-                placeholder="请选择父文档"
-                tree-default-expand-all
-                :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
-              >
-              </a-tree-select>
-            </a-form-item>
-            <a-form-item>
-              <a-input v-model:value="doc.sort" placeholder="顺序" />
-            </a-form-item>
-            <a-form-item>
-              <div id="content"></div>
-            </a-form-item>
-            <p>
+            <a-row :gutter="20">
+              <a-col :span="12">
+                <a-form-item>
+                  <a-input v-model:value="doc.name" placeholder="名称" />
+                </a-form-item>
+              </a-col>
+              <a-col :span="6"
+                ><a-form-item>
+                  <a-input
+                    v-model:value="doc.sort"
+                    placeholder="顺序"
+                  /> </a-form-item
+              ></a-col>
+              <a-col :span="6"
+                ><a-form-item>
+                  <a-tree-select
+                    v-model:value="doc.parent"
+                    style="width: 100%"
+                    :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+                    :tree-data="treeSelectData"
+                    placeholder="请选择父文档"
+                    tree-default-expand-all
+                    :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
+                  >
+                  </a-tree-select> </a-form-item
+              ></a-col>
+              <a-form-item>
+                <div id="content"></div>
+              </a-form-item>
+            </a-row>
+            <p style="text-align: right">
               <a-form layout="inline" :model="param">
                 <a-form-item>
                   <a-button type="primary" @click="handleSave()">
@@ -347,6 +356,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+#content {
+  margin-left: 10px;
+}
 img {
   width: 50px;
   height: 50px;
