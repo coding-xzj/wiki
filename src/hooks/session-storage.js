@@ -7,12 +7,6 @@ const SessionStorage= {
     },
     set: function (key, data) {
         sessionStorage.setItem(key, JSON.stringify(data));
-    },
-    remove: function (key) {
-        sessionStorage.removeItem(key);
-    },
-    clearAll: function () {
-        sessionStorage.clear();
     }
 };
 
