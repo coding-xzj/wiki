@@ -126,7 +126,7 @@ public class UserService {
         } else {
             if (userDB.getPassword().equals(req.getPassword())) {
                 // 登录成功
-                UserLoginResp userLoginResp = CopyUtil.copy(req, UserLoginResp.class);
+                UserLoginResp userLoginResp = CopyUtil.copy(userDB, UserLoginResp.class);
                 return userLoginResp;
             } else {
                 // 密码不正确
