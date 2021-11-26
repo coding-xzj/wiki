@@ -22,7 +22,7 @@ public class DocSaveReq {
     private Integer voteCount;
 
     @NotNull(message = "【内容】不能为空")
-    private Integer content;
+    private String content;
 
     public Long getId() {
         return id;
@@ -80,11 +80,11 @@ public class DocSaveReq {
         this.voteCount = voteCount;
     }
 
-    public Integer getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(Integer content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
