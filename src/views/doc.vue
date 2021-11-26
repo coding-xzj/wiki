@@ -15,6 +15,7 @@
         <span class="counter">{{ counter }}</span>
         秒后自动回到主页~
       </div>
+
       <a-layout>
         <a-layout-sider style="background: #fff">
           <a-col :span="8">
@@ -241,6 +242,7 @@ ol {
   background-size: 50%;
   background-position: 50% 30%;
   background-repeat: no-repeat;
+  max-height: "530px";
 }
 .counter {
   font-weight: 600;

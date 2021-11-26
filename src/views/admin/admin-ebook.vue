@@ -116,7 +116,7 @@ const ebooks = ref();
 // 分页管理
 const pagination = ref({
   current: 1,
-  pageSize: 5,
+  pageSize: 4,
   total: 0
 });
 

@@ -1,4 +1,4 @@
-const SessionStorage = {
+const SessionStorage= {
     get: function (key) {
         const v = sessionStorage.getItem(key);
         if (v && typeof(v) !== "undefined" && v !== "undefined") {
@@ -15,3 +15,5 @@ const SessionStorage = {
         sessionStorage.clear();
     }
 };
+
+export default SessionStorage

@@ -130,14 +130,14 @@ const isShowWelcome = ref(true);
 /**
  * 获取文章列表
  */
-let categoryId2 = 0;
+let category2Id = 0;
 const isShowList = ref(true);
 const handleQueryEbook = async () => {
   const res = await axios.get("/ebook/list", {
     params: {
       page: 1,
       size: 10,
-      categoryId2: categoryId2
+      category2Id: category2Id
     }
   });
   const data = res.data;
@@ -154,7 +154,7 @@ const handleClick = (value: any) => {
   if (value.key === "welcome") {
     isShowWelcome.value = true;
   } else {
-    categoryId2 = value.key;
+    category2Id = value.key;
     isShowWelcome.value = false;
     handleQueryEbook();
   }

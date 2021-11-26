@@ -1,4 +1,4 @@
-const KEY = "!@#QWERT";
+export const KEY = "!@#QWERT";
 /*
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
@@ -11,7 +11,7 @@ const chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
-function hexMd5(s) {
+export function hexMd5(s) {
   return hex_md5(s);
 }
 function hex_md5(s){ return binl2hex(core_md5(str2binl(s), s.length * chrsz));}

@@ -39,9 +39,6 @@
       >
         <template v-slot:action="{ record }">
           <a-space size="small">
-            <a-button type="primary" @click="resetPassword(record)"
-              >重置密码</a-button
-            >
             <a-button type="primary" @click="edit(record)">编辑</a-button>
             <a-popconfirm
               title="删除后不可恢复，确认删除?"
@@ -67,28 +64,13 @@
   >
     <a-form :model="user" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="登陆名">
-        <a-input v-model:value="user.loginName" :disabled="!!user.id" />
+        <a-input v-model:value="user.loginName" />
       </a-form-item>
       <a-form-item label="昵称">
         <a-input v-model:value="user.name" />
       </a-form-item>
-      <a-form-item label="密码" v-show="!user.id">
-        <a-input v-model:value="user.password" />
-      </a-form-item>
-    </a-form>
-  </a-modal>
-
-  <a-modal
-    title="重置密码"
-    v-model:visible="resetModalVisible"
-    :confirm-loading="resetModalLoading"
-    ok-text="确定"
-    cancel-text="取消"
-    @ok="handleResetModalOk"
-  >
-    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="新密码">
-        <a-input v-model:value="user.password" />
+      <a-form-item label="密码">
+        <a-input-password v-model:value="user.password" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -99,9 +81,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import { Tool } from "@/util/tool";
-
-declare let hexMd5: any;
-declare let KEY: any;
+import { hexMd5, KEY } from "@/hooks/md5";
 
 const queryName = ref();
 queryName.value = {};
@@ -220,43 +200,6 @@ const handleDelete = async (id: number) => {
   const res = await axios.delete("/user/delete/" + id);
   const data = res.data; // data = commonResp
   if (data.success) {
-    // 重新加载列表
-    handleQuery({
-      page: pagination.value.current,
-      size: pagination.value.pageSize
-    });
-  } else {
-    message.error(data.message);
-  }
-};
-
-// -------- 重置密码 ---------
-
-const resetModalVisible = ref(false);
-const resetModalLoading = ref(false);
-
-/**
- * 重置密码
- */
-const resetPassword = (record: any) => {
-  resetModalVisible.value = true;
-  user.value = Tool.copy(record);
-  user.value.password = null;
-};
-
-/**
- * 保存
- */
-const handleResetModalOk = async () => {
-  resetModalLoading.value = true;
-
-  user.value.password = hexMd5(user.value.password + KEY);
-
-  const res = await axios.post("/user/reset-password", user.value);
-  resetModalLoading.value = false;
-  const data = res.data;
-  if (data.success) {
-    resetModalVisible.value = false;
     // 重新加载列表
     handleQuery({
       page: pagination.value.current,

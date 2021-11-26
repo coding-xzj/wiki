@@ -20,6 +20,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
     "@typescript-eslint/camelcase": 0,
     "noImplicitAny": 0,
-    "@typescript-eslint/no-non-null-assertion":0
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-use-before-define":0
   }
 }

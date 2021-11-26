@@ -65,7 +65,7 @@
           <a-input v-model:value="loginUser.loginName" />
         </a-form-item>
         <a-form-item label="密码">
-          <a-input v-model:value="loginUser.password" type="password" />
+          <a-input-password v-model:value="loginUser.password" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -84,9 +84,7 @@ import { ref, computed } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import store from "@/store";
-
-declare let hexMd5: any;
-declare let KEY: any;
+import { hexMd5, KEY } from "@/hooks/md5";
 
 // 登录后保存
 const user = computed(() => store.state.user);
