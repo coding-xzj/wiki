@@ -7,7 +7,6 @@
         margin: 0,
         minHeight: '280px',
         maxHeight: '530px',
-        overflowY: 'scroll',
       }"
     >
       <div class="noEbook" v-if="parentCate.length === 0">

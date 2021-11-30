@@ -1,7 +1,11 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo">知识库</div>
-    <a-menu theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
+    <a-menu
+      mode="horizontal"
+      theme="dark"
+      :style="{ padding: '0 50px', lineHeight: '64px' }"
+    >
+      <div class="logo">知识库</div>
       <a-menu-item key="/">
         <router-link to="/">首页</router-link>
       </a-menu-item>

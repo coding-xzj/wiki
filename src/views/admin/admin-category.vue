@@ -11,9 +11,6 @@
       <a-row type="flex" justify="end">
         <a-form layout="inline" :model="queryInfo" style="margin-bottom: 20px">
           <a-form-item>
-            <a-button type="primary" @click="handleQuery()">查询</a-button>
-          </a-form-item>
-          <a-form-item>
             <a-button type="primary" @click="add()">新增</a-button>
           </a-form-item>
         </a-form>

@@ -1,18 +1,16 @@
 <template>
   <a-layout-footer>
-    <GithubOutlined /><a
-      href="https://github.com/coding-xzj"
-      style="margin-left: 8px"
-      >GitHub</a
-    >
+    <GithubOutlined />
+    <a href="https://github.com/coding-xzj" style="margin-left: 8px">GitHub</a>
   </a-layout-footer>
 </template>
 
 <script>
 export default {
-  name: 'TheFooter',
-}
+  name: "TheFooter"
+};
 </script>
+
 
 <style>
 .ant-layout-footer {

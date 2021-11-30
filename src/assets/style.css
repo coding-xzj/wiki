@@ -1,0 +1,41 @@
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 7px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  background-color: rgb(141, 198, 221);
+  background-image: linear-gradient(to right, #81FBB8, #28C76F);
+}
+
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #ededed;
+  border-radius: 10px;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+#app,
+.main {
+  padding-top: 44px;
+  height: 100%;
+}
+
+.ant-layout {
+  height: 100%;
+}
+
+.ant-layout-header {
+  padding: 0;
+}

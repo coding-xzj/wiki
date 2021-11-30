@@ -14,17 +14,4 @@ import TheFooter from "@/components/the-footer.vue";
 </script>
 
 <style>
-html,
-body,
-#app {
-  width: 100%;
-  height: 100%;
-}
-.main {
-  padding-top: 44px;
-  height: 100%;
-}
-.ant-layout {
-  height: 100%;
-}
 </style>
