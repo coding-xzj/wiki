@@ -8,8 +8,7 @@
 ::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
-  background-color: rgb(141, 198, 221);
-  background-image: linear-gradient(to right, #81FBB8, #28C76F);
+  background-color: rgba(12, 2, 11, 0.68);
 }
 
 ::-webkit-scrollbar-track {
