@@ -10,14 +10,13 @@
     >
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form layout="inline" :model="param">
-            <a-form-item>
-              <a-button type="primary" @click="handleQuery()"> 查询 </a-button>
-            </a-form-item>
-            <a-form-item>
-              <a-button type="primary" @click="add()"> 新增 </a-button>
-            </a-form-item>
-          </a-form>
+          <a-row type="flex" justify="end">
+            <a-form layout="inline" :model="param">
+              <a-form-item>
+                <a-button type="primary" @click="add()"> 新增 </a-button>
+              </a-form-item>
+            </a-form>
+          </a-row>
           <a-table
             v-if="parentCate.length > 0"
             :columns="columns"
@@ -33,7 +32,12 @@
             </template>
             <template v-slot:action="{ record }">
               <a-space size="small">
-                <a-button type="primary" @click="edit(record)" size="small">
+                <a-button
+                  type="primary"
+                  ghost
+                  @click="edit(record)"
+                  size="small"
+                >
                   编辑
                 </a-button>
                 <a-popconfirm
@@ -42,7 +46,7 @@
                   cancel-text="否"
                   @confirm="handleDelete(record.id)"
                 >
-                  <a-button type="danger" size="small"> 删除 </a-button>
+                  <a-button type="danger" ghost size="small"> 删除 </a-button>
                 </a-popconfirm>
               </a-space>
             </template>
@@ -189,7 +193,6 @@ const handleSave = async () => {
   if (data.success) {
     // modalVisible.value = false;
     message.success("保存成功！");
-
     // 重新加载列表
     handleQuery();
   } else {
@@ -280,7 +283,6 @@ const handleQueryContent = async () => {
  * 编辑
  */
 const edit = (record: any) => {
-  // 清空富文本框
   editor.txt.html("");
   modalVisible.value = true;
   doc.value = Tool.copy(record);
@@ -298,7 +300,6 @@ const edit = (record: any) => {
  * 新增
  */
 const add = () => {
-  // 清空富文本框
   editor.txt.html("");
   modalVisible.value = true;
   doc.value = {
@@ -307,12 +308,10 @@ const add = () => {
 
   treeSelectData.value = Tool.copy(parentCate.value) || [];
 
-  // 为选择树添加一个"无"
   treeSelectData.value.unshift({ id: 0, name: "无" });
 };
 
 const handleDelete = (id: number) => {
-  // console.log(parentCate, parentCate.value, id)
   // 清空数组，否则多次删除时，数组会一直增加
   deleteIds.length = 0;
   deleteNames.length = 0;
@@ -321,7 +320,9 @@ const handleDelete = (id: number) => {
     title: "重要提醒",
     icon: createVNode(ExclamationCircleOutlined),
     content:
-      "将删除：【" + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
+      "将删除:【" + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
+    okText: "确定",
+    cancelText: "取消",
     async onOk() {
       // console.log(ids)
       const res = await axios.delete("/doc/delete/" + deleteIds.join(","));

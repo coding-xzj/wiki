@@ -15,7 +15,7 @@
         秒后自动回到主页~
       </div>
 
-      <a-layout>
+      <a-layout v-if="parentCate.length !== 0">
         <a-layout-sider style="background: #fff">
           <a-col :span="8">
             <a-tree
@@ -31,7 +31,7 @@
         </a-layout-sider>
         <a-layout-content style="background: #fff">
           <a-row>
-            <a-col :span="24" v-if="parentCate.length !== 0">
+            <a-col :span="24">
               <div>
                 <h2>{{ doc.name }}</h2>
                 <div>

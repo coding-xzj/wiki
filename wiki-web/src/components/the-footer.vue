@@ -1,7 +1,12 @@
 <template>
   <a-layout-footer>
     <GithubOutlined />
-    <a href="https://github.com/coding-xzj" style="margin-left: 8px">GitHub</a>
+    <a
+      href="https://github.com/coding-xzj"
+      target="_blank"
+      style="margin-left: 8px"
+      >GitHub</a
+    >
   </a-layout-footer>
 </template>
 
