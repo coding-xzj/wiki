@@ -44,9 +44,6 @@ public class DocService {
     private MyDocMapper myDocMapper;
 
     @Resource
-    private WsService wsService;
-
-    @Resource
     private RedisUtil redisUtil;
 
     @Resource
@@ -145,7 +142,6 @@ public class DocService {
         // ws推送消息
         Doc docDB = docMapper.selectByPrimaryKey(id);
         String logId = MDC.get("LOG_ID");
-        wsService.sendInfo("【" + docDB.getName() + "】被点赞！", logId);
     }
 
     /*
