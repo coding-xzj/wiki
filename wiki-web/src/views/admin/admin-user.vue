@@ -1,13 +1,6 @@
 <template>
-  <a-layout style="margin-top: 20px; padding: 0 50px">
-    <a-layout-content
-      :style="{
-        background: '#fff',
-        padding: '15px 30px',
-        margin: 0,
-        minHeight: '280px',
-      }"
-    >
+  <a-layout class="box">
+    <a-layout-content class="border">
       <a-row type="flex" justify="end">
         <a-form layout="inline" :model="queryName" style="margin-bottom: 20px">
           <a-form-item>
@@ -62,14 +55,20 @@
     cancel-text="取消"
     @ok="handleModalOk"
   >
-    <a-form :model="user" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="登陆名">
+    <a-form
+      ref="formRef"
+      :rules="rules"
+      :model="user"
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 18 }"
+    >
+      <a-form-item name="loginName" label="登陆名">
         <a-input v-model:value="user.loginName" />
       </a-form-item>
-      <a-form-item label="昵称">
+      <a-form-item name="name" label="昵称">
         <a-input v-model:value="user.name" />
       </a-form-item>
-      <a-form-item label="密码">
+      <a-form-item name="password" label="密码">
         <a-input-password v-model:value="user.password" />
       </a-form-item>
     </a-form>
@@ -81,7 +80,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import { Tool } from "@/util/tool";
-import { hexMd5, KEY } from "@/hooks/md5";
+import { hexMd5, KEY } from "@/util/md5";
 
 const queryName = ref();
 queryName.value = {};
@@ -155,26 +154,59 @@ const handleTableChange = (pagination: any) => {
 
 // -------- 表单 ---------
 const user = ref();
+const formRef = ref();
 const modalVisible = ref(false);
 const modalLoading = ref(false);
 const handleModalOk = async () => {
-  modalLoading.value = true;
-
-  user.value.password = hexMd5(user.value.password + KEY);
-
-  const res = await axios.post("/user/save", user.value);
-  modalLoading.value = false;
-  const data = res.data;
-  if (data.success) {
-    modalVisible.value = false;
-    // 重新加载列表
-    handleQuery({
-      page: pagination.value.current,
-      size: pagination.value.pageSize
+  formRef.value
+    .validate()
+    .then(async () => {
+      modalLoading.value = true;
+      user.value.password = hexMd5(user.value.password + KEY);
+      const res = await axios.post("/user/save", user.value);
+      modalLoading.value = false;
+      const data = res.data;
+      if (data.success) {
+        modalVisible.value = false;
+        // 重新加载列表
+        handleQuery({
+          page: pagination.value.current,
+          size: pagination.value.pageSize
+        });
+      } else {
+        message.error(data.message);
+      }
+    })
+    .catch(() => {
+      message.error("请按要求完成表单");
     });
-  } else {
-    message.error(data.message);
-  }
+};
+
+const rules = {
+  loginName: [
+    {
+      required: true,
+      message: "请输入登录名",
+      trigger: "blur",
+      type: "string"
+    }
+  ],
+  name: [
+    {
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur",
+      type: "string"
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: "请输入密码",
+      trigger: "blur",
+      type: "string"
+    }
+  ]
 };
 
 /**

@@ -1,13 +1,6 @@
 <template>
-  <a-layout style="margin-top: 20px; padding: 0 50px">
-    <a-layout-content
-      :style="{
-        background: '#fff',
-        margin: 0,
-        minHeight: '280px',
-        padding: '20px 30px',
-      }"
-    >
+  <a-layout class="box">
+    <a-layout-content class="border">
       <a-row type="flex" justify="end">
         <a-form layout="inline" :model="queryInfo" style="margin-bottom: 20px">
           <a-form-item>
@@ -52,14 +45,16 @@
     @ok="handleModalOk"
   >
     <a-form
+      ref="formRef"
       :model="category"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 18 }"
+      :rules="rules"
     >
-      <a-form-item label="名称">
+      <a-form-item name="name" label="名称">
         <a-input v-model:value="category.name" />
       </a-form-item>
-      <a-form-item label="父分类">
+      <a-form-item name="cate" label="父分类">
         <a-select v-model:value="category.parent" ref="select">
           <a-select-option :value="0">无</a-select-option>
           <a-select-option
@@ -71,7 +66,7 @@
           >
         </a-select>
       </a-form-item>
-      <a-form-item label="顺序">
+      <a-form-item name="sort" label="顺序">
         <a-input v-model:value="category.sort" />
       </a-form-item>
     </a-form>
@@ -79,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import { Tool } from "@/util/tool";
@@ -122,6 +117,7 @@ const handleQuery = async () => {
   if (data.success) {
     categorys.value = data.content;
     parentCate.value = [];
+
     parentCate.value = Tool.array2Tree(categorys.value, 0);
   } else {
     message.error(data.message);
@@ -129,22 +125,41 @@ const handleQuery = async () => {
 };
 
 // -------- 表单 ---------
+const formRef = ref();
 const category = ref({});
 const modalVisible = ref(false);
 const modalLoading = ref(false);
 
-const handleModalOk = async () => {
-  modalLoading.value = true;
-  const res = await axios.post("/category/save", category.value);
-  modalLoading.value = false;
-  const data = res.data;
-  if (data.success) {
-    modalVisible.value = false;
-    // 重新加载列表
-    handleQuery();
-  } else {
-    message.error(data.message);
-  }
+const handleModalOk = () => {
+  formRef.value
+    .validate()
+    .then(async () => {
+      modalLoading.value = true;
+      const res = await axios.post("/category/save", category.value);
+      modalLoading.value = false;
+      const data = res.data;
+      if (data.success) {
+        modalVisible.value = false;
+        // 重新加载列表
+        handleQuery();
+      } else {
+        message.error(data.message);
+      }
+    })
+    .catch(() => {
+      message.error("请按规则填入表单");
+    });
+};
+
+const rules = {
+  name: [
+    {
+      required: true,
+      message: "请输入分类名称",
+      trigger: "blur",
+      type: "string"
+    }
+  ]
 };
 
 /**

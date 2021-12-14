@@ -35,13 +35,17 @@ export class Tool {
     if (Tool.isEmpty(array)) {
       return [];
     }
+    // console.log(array);
 
     const result = [];
     for (let i = 0; i < array.length; i++) {
       const c = array[i];
       // console.log(Number(c.parent), Number(parentId));
+
       if (Number(c.parent) === Number(parentId)) {
+        // console.log(c);
         result.push(c);
+        // console.log(result, i);
 
         // 递归查看当前节点对应的子节点
         const children = Tool.array2Tree(array, c.id);

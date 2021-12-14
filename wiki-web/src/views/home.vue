@@ -1,6 +1,6 @@
 <template>
-  <a-layout>
-    <a-layout-content style="padding: 0 50px; overflow: hidden">
+  <a-layout class="box">
+    <a-layout-content class="border">
       <a-layout style="margin: 20px 0; background: #fff">
         <a-layout-sider class="sider" width="250" style="padding-bottom: 20px">
           <a-menu
@@ -11,7 +11,7 @@
             :openKeys="openKeys"
             @openChange="onOpenChange"
           >
-            <a-menu-item key="welcome">
+            <a-menu-item key="welcome" v-if="isLogin">
               <MailOutlined />
               <span>欢迎</span>
             </a-menu-item>
@@ -33,7 +33,7 @@
             overflowY: 'scroll',
           }"
         >
-          <div class="ebook" v-if="isShowWelcome">
+          <div class="ebook" v-if="isShowWelcome && isLogin">
             <the-welcome></the-welcome>
           </div>
           <a-list
@@ -88,11 +88,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import { Tool } from "@/util/tool";
+import store from "@/store";
 import TheWelcome from "@/components/the-welcome.vue";
+
+const isLogin = computed(() => Tool.isNotEmpty(store.state.user));
 
 const ebooks = ref();
 

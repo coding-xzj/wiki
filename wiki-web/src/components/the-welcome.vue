@@ -174,11 +174,6 @@ const getStatistic = async () => {
 };
 
 const init30DayEcharts = (list: any) => {
-  const mainDom = document.getElementById("main-col");
-  if (mainDom) {
-    mainDom.innerHTML =
-      '<div id="main" style="width: 100%;height:300px;"></div>';
-  }
   // 基于准备好的dom，初始化echarts实例
   const myChart = echarts.init(document.getElementById("main"));
 

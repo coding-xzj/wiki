@@ -30,6 +30,7 @@ body,
 .main {
   padding-top: 44px;
   height: 100%;
+  background-color: rgb(226, 221, 221);
 }
 
 .ant-layout {
@@ -38,4 +39,23 @@ body,
 
 .ant-layout-header {
   padding: 0;
+}
+
+.ant-layout-footer {
+  background-color: rgb(226, 221, 221);
+}
+
+.border {
+  background: #fff;
+  padding: 20px 30px;
+  margin: 0;
+  min-height: 280px;
+  max-height: 540px;
+  box-shadow: 10px 10px 10px #888888;
+}
+
+.box {
+  /* margin-top: 20px; */
+  padding: 20px 50px 0px 50px;
+  background-color: rgb(226, 221, 221);
 }

@@ -1,13 +1,6 @@
 <template>
-  <a-layout style="margin-top: 20px; padding: 0 50px">
-    <a-layout-content
-      :style="{
-        background: '#fff',
-        padding: '20px 30px',
-        margin: 0,
-        minHeight: '280px',
-      }"
-    >
+  <a-layout class="box">
+    <a-layout-content class="border">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-row type="flex" justify="end">
@@ -209,8 +202,6 @@ const setDisable = (treeSelectData: any, id: any) => {
   for (let i = 0; i < treeSelectData.length; i++) {
     const node = treeSelectData[i];
     if (node.id === id) {
-      // 如果当前节点就是目标节点
-      console.log("disabled", node);
       // 将目标节点设置为disabled
       node.disabled = true;
 

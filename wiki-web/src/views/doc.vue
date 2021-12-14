@@ -1,14 +1,6 @@
 <template>
-  <a-layout style="margin-top: 20px; padding: 0 50px">
-    <a-layout-content
-      :style="{
-        background: '#fff',
-        padding: '20px 30px',
-        margin: 0,
-        minHeight: '280px',
-        maxHeight: '530px',
-      }"
-    >
+  <a-layout class="box">
+    <a-layout-content class="border">
       <div class="noEbook" v-if="parentCate.length === 0">
         该电子书为空！将在
         <span class="counter">{{ counter }}</span>
@@ -16,29 +8,38 @@
       </div>
 
       <a-layout v-if="parentCate.length !== 0">
-        <a-layout-sider style="background: #fff">
-          <a-col :span="8">
-            <a-tree
-              v-if="parentCate.length > 0"
-              :tree-data="parentCate"
-              @select="onSelect"
-              :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
-              :defaultExpandAll="true"
-              :defaultSelectedKeys="defaultSelectedKeys"
-            >
-            </a-tree>
-          </a-col>
+        <a-layout-sider style="background: #fff" width="250px">
+          <el-row>
+            <el-col :span="8">
+              <a-tree
+                v-if="parentCate.length > 0"
+                :tree-data="parentCate"
+                @select="onSelect"
+                :replaceFields="{ title: 'name', key: 'id', value: 'id' }"
+                :defaultExpandAll="true"
+                :defaultSelectedKeys="defaultSelectedKeys"
+              >
+              </a-tree>
+            </el-col>
+          </el-row>
         </a-layout-sider>
+
         <a-layout-content style="background: #fff">
           <a-row>
-            <a-col :span="24">
+            <a-col :span="1">
+              <a-divider
+                type="vertical"
+                style="height: 100%; width: 2px; background-color: #f0f0f0"
+              />
+            </a-col>
+            <a-col :span="23">
               <div>
                 <h2>{{ doc.name }}</h2>
                 <div>
                   <span>阅读数：{{ doc.viewCount }}</span> &nbsp; &nbsp;
                   <span>点赞数：{{ doc.voteCount }}</span>
                 </div>
-                <a-divider style="height: 2px; background-color: #9999cc" />
+                <a-divider style="height: 2px; background-color: #f0f0f0" />
               </div>
               <div class="wangeditor" :innerHTML="html"></div>
               <div class="vote-div">

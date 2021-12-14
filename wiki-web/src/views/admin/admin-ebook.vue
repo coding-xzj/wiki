@@ -1,12 +1,6 @@
 <template>
-  <a-layout style="margin-top: 20px; padding: 0 50px">
-    <a-layout-content
-      :style="{
-        background: '#fff',
-        padding: '15px 30px',
-        minHeight: '280px',
-      }"
-    >
+  <a-layout class="box">
+    <a-layout-content class="border">
       <!-- 工具栏 -->
       <a-row type="flex" justify="end">
         <a-form layout="inline" :model="queryName" style="margin-bottom: 20px">
@@ -75,25 +69,28 @@
     cancelText="取消"
     @ok="handleModalOk"
   >
-    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+    <a-form
+      ref="formRef"
+      :rules="rules"
+      :model="ebook"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 18 }"
+    >
       <a-form-item label="封面">
         <a-input v-model:value="ebook.cover" />
       </a-form-item>
-      <a-form-item label="名称">
+      <a-form-item name="name" label="名称">
         <a-input v-model:value="ebook.name" />
       </a-form-item>
       <a-form-item label="分类">
         <a-cascader
           v-model:value="categoryIds"
-          :field-names="{
-            label: 'name',
-            value: 'id',
-            children: 'children',
-          }"
+          placeholder="请选择"
+          :field-names="{ label: 'name', value: 'id', children: 'children' }"
           :options="parentCate"
         />
       </a-form-item>
-      <a-form-item label="描述">
+      <a-form-item name="description" label="描述">
         <a-input v-model:value="ebook.description" type="textarea" />
       </a-form-item>
     </a-form>
@@ -204,31 +201,57 @@ const handleTableChange = (pagination: any) => {
 };
 
 // -------- 表单 ---------
-
+const formRef = ref();
 const categoryIds = ref(); // 父分类ID
 const ebook = ref();
 const modalVisible = ref(false);
 const modalLoading = ref(false);
 
 // 保存
-const handleModalOk = async () => {
-  modalLoading.value = true;
-  ebook.value.category1Id = categoryIds.value[0];
-  ebook.value.category2Id = categoryIds.value[1];
+const handleModalOk = () => {
+  formRef.value
+    .validate()
+    .then(async () => {
+      modalLoading.value = true;
+      ebook.value.category1Id = categoryIds.value[0];
+      ebook.value.category2Id = categoryIds.value[1];
 
-  const res = await axios.post("/ebook/save", ebook.value);
-  modalLoading.value = false;
-  const data = res.data;
-  if (data.success) {
-    modalVisible.value = false;
-    // 重新加载列表
-    handleQuery({
-      page: pagination.value.current,
-      size: pagination.value.pageSize
+      const res = await axios.post("/ebook/save", ebook.value);
+      modalLoading.value = false;
+      const data = res.data;
+      if (data.success) {
+        modalVisible.value = false;
+        // 重新加载列表
+        handleQuery({
+          page: pagination.value.current,
+          size: pagination.value.pageSize
+        });
+      } else {
+        message.error(data.message);
+      }
+    })
+    .catch(() => {
+      message.error("请按规则完成表单");
     });
-  } else {
-    message.error(data.message);
-  }
+};
+
+const rules = {
+  name: [
+    {
+      required: true,
+      message: "请输入电子书名称",
+      trigger: "blur",
+      type: "string"
+    }
+  ],
+  description: [
+    {
+      required: true,
+      message: "请描述电子书",
+      trigger: "blur",
+      type: "string"
+    }
+  ]
 };
 
 /**

@@ -6,6 +6,7 @@ import {
 import Main from "../views/main.vue";
 import Home from "../views/home.vue";
 import Doc from "../views/doc.vue";
+import AdminLogin from "../views/admin/admin-login.vue";
 import AdminUser from "../views/admin/admin-user.vue";
 import AdminEbook from "../views/admin/admin-ebook.vue";
 import AdminCategory from "../views/admin/admin-category.vue";
@@ -62,6 +63,11 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
     ],
+  },
+  {
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin,
   },
 ];
 

@@ -46,33 +46,7 @@
           </template>
         </a-dropdown>
       </a>
-      <a class="login-menu" v-show="!user.id" @click="showLoginModal">
-        <span>登录</span>
-      </a>
     </a-menu>
-
-    <a-modal
-      title="登录"
-      v-model:visible="loginModalVisible"
-      :confirm-loading="loginModalLoading"
-      ok-text="登录"
-      cancel-text="取消"
-      @ok="login"
-      :maskClosable="false"
-    >
-      <a-form
-        :model="loginUser"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }"
-      >
-        <a-form-item label="登录名">
-          <a-input v-model:value="loginUser.loginName" />
-        </a-form-item>
-        <a-form-item label="密码">
-          <a-input-password v-model:value="loginUser.password" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </a-layout-header>
 </template>
 
@@ -84,43 +58,13 @@ export default defineComponent({});
 
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import axios from "axios";
 import { message } from "ant-design-vue";
 import store from "@/store";
-import { hexMd5, KEY } from "@/hooks/md5";
 
 // 登录后保存
 const user = computed(() => store.state.user);
-
-// 用来登录
-const loginUser = ref({
-  loginName: "",
-  password: ""
-});
-const loginModalVisible = ref(false);
-const loginModalLoading = ref(false);
-const showLoginModal = () => {
-  loginModalVisible.value = true;
-};
-
-// 登录
-const login = async () => {
-  loginModalLoading.value = true;
-  loginUser.value.password = hexMd5(loginUser.value.password + KEY);
-  const res = await axios.post("/user/login", loginUser.value);
-  loginModalLoading.value = false;
-  const data = res.data;
-  console.log(res);
-
-  if (data.success) {
-    loginModalVisible.value = false;
-    message.success("登录成功！");
-    store.commit("setUser", data.content);
-  } else {
-    message.error(data.message);
-  }
-};
 
 // 退出登录
 const logout = async () => {

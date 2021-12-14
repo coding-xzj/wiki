@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import SessionStorage from "../hooks/session-storage";
+import SessionStorage from "@/util/session-storage";
 const USER = "USER";
 
 const store = createStore({
@@ -8,7 +8,6 @@ const store = createStore({
   },
   mutations: {
     setUser(state, user) {
-      console.log("store user：", user);
       state.user = user;
       SessionStorage.set(USER, user);
     },
