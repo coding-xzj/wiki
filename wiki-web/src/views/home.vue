@@ -11,7 +11,7 @@
             :openKeys="openKeys"
             @openChange="onOpenChange"
           >
-            <a-menu-item key="welcome" v-if="isLogin">
+            <a-menu-item key="welcome">
               <MailOutlined />
               <span>欢迎</span>
             </a-menu-item>
@@ -33,7 +33,7 @@
             overflowY: 'scroll',
           }"
         >
-          <div class="ebook" v-if="isShowWelcome && isLogin">
+          <div class="ebook" v-if="isShowWelcome">
             <the-welcome></the-welcome>
           </div>
           <a-list
