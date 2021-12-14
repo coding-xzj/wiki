@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.xzj.wiki.domain.Ebook;
 import com.xzj.wiki.domain.EbookExample;
 import com.xzj.wiki.mapper.EbookMapper;
+import com.xzj.wiki.mapper.MyEbookMapper;
 import com.xzj.wiki.req.EbookQueryReq;
 import com.xzj.wiki.req.EbookSaveReq;
 import com.xzj.wiki.resp.EbookQueryResp;
@@ -28,6 +29,9 @@ public class EbookService {
 
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private MyEbookMapper myEbookMapper;
 
     @Resource
     private SnowFlake snowFlake;
@@ -73,7 +77,7 @@ public class EbookService {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())){
             ebook.setId(snowFlake.nextId());
-            ebookMapper.insert(ebook);
+            myEbookMapper.insert(ebook);
         } else {
             ebookMapper.updateByPrimaryKey(ebook);
         }
